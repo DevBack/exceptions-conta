@@ -1,5 +1,7 @@
 package entities;
 
+import exceptions.BusinessExceptions;
+
 public class Account {
 
 	private Integer number;
@@ -55,17 +57,17 @@ public class Account {
 	}
 	
 	public void withdraw(double amount) {
+		validateWithdraw(amount);
 		balance -= amount;
 	}
 	
-	public String validateWithdraw(double amount) {
+	private void validateWithdraw(double amount) {
 		
 		if(amount > getWithdrawLimit()) {
-			return "Erro de Saque: A Quantia Excede o Limite de Saque.";
+			throw new BusinessExceptions("Erro de Saque: A Quantia Excede o Limite de Saque.");
 		}
 		if (amount > getBalance()) {
-			return "Erro de Saque: Saldo Insuficiente.";
+			throw new BusinessExceptions("Erro de Saque: Saldo Insuficiente.");
 		}
-		return null;
 	}
 }
